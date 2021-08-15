@@ -16,9 +16,9 @@ def Authentication(request):
 
     return payload
 
-def CheckAddress(Address, address_id):
+def CheckAddress(Address, address_id, user):
     try:
-        address = Address.objects.get(id=address_id)
+        address = Address.objects.get(id=address_id, author=user)
     except:
         raise NotFound('An address with this id does not exist.')
 
