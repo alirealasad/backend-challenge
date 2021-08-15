@@ -23,7 +23,7 @@ class LoginView(APIView):
 
         payload = {
             'id': user.id,
-            'exp': datetime.datetime.utcnow() + datetime.timedelta(minutes=60),
+            'exp': datetime.datetime.utcnow() + datetime.timedelta(days=60),
             'iat': datetime.datetime.utcnow()
         }
 
@@ -59,4 +59,18 @@ class UserView(APIView):
         serializer = UserSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         serializer.save()
-        return Response(serializer.data)
+        payload = {
+            'id': user.id,
+            'exp': datetime.datetime.utcnow() + datetime.timedelta(days=60),
+            'iat': datetime.datetime.utcnow()
+        }
+
+        token = jwt.encode(payload, settings.SECRET_KEY, algorithm='HS256')
+
+        response = Response()
+
+        response.set_cookie(key='jwt', value=token, httponly=True)
+        response.data = {
+            'jwt': token
+        }
+        return response
