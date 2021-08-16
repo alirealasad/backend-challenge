@@ -9,4 +9,4 @@
 6. launch virtual environment: `pipenv shell`
 7. Start running django developement server:`python manage.py runserver`
 
-For the api documention check API.md
+For the Api documentation check [API.md](https://github.com/alirealasad/backend-challenge/blob/main/API.md#endpoints)
